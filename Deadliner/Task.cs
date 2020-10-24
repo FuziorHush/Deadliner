@@ -44,6 +44,8 @@ namespace Deadliner
             }
         }
 
+        public bool IsTermless { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Task()
@@ -55,6 +57,10 @@ namespace Deadliner
 
         public string CountTimeLeft()
         {
+            if (IsTermless == true)//Если время вышло, возвращает Time is up!
+            {
+                return "Termless";
+            }
 
             DateTime now = DateTime.Now;
 

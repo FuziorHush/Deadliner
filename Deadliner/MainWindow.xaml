@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Deadliner"
         mc:Ignorable="d"
-        Title="Deadliner" Height="500" Width="1000" MinHeight="350" MinWidth="665" Loaded="Window_Loaded" Background="#FF313649" Closing="Window_Closing">
+        Title="Deadliner" Height="500" Width="850" MinHeight="350" MinWidth="665" Loaded="Window_Loaded" Background="#FF212639" Closing="Window_Closing">
     <Grid>
         <DataGrid x:Name="dgTasks" FontSize="14" FontWeight="Bold" AutoGenerateColumns="False" Margin="8,8,8,183">
             <DataGrid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFDADADA" Offset="0"/>
-                    <GradientStop Color="#FF787878" Offset="0.992"/>
+                    <GradientStop Color="#FFBABABA" Offset="0"/>
+                    <GradientStop Color="#FF383853" Offset="1"/>
                 </LinearGradientBrush>
             </DataGrid.Background>
             <DataGrid.Columns>
@@ -38,7 +38,9 @@
         <TextBox Name="NewTaskHour_TextBox" HorizontalAlignment="Left" Height="30" Margin="240,0,0,109" TextWrapping="Wrap" Text="00" VerticalAlignment="Bottom" Width="40" FontSize="20" TextAlignment="Center" LostFocus="NewTaskHour_TextBox_LostFocus" GotFocus="NewTaskHour_TextBox_GotFocus"/>
         <TextBox x:Name="NewTaskMinute_TextBox" HorizontalAlignment="Left" Height="30" Margin="293,0,0,109" TextWrapping="Wrap" Text="00" VerticalAlignment="Bottom" Width="40" FontSize="20" TextAlignment="Center" LostFocus="NewTaskMinute_TextBox_LostFocus" GotFocus="NewTaskMinute_TextBox_GotFocus"/>
         <Label Content=":" HorizontalAlignment="Left" Margin="280,0,0,108" VerticalAlignment="Bottom" FontSize="16" Foreground="#FFD8D8D8"/>
-        <Label Name="DeadlineDateTime_Label" Content="Deadline: " HorizontalAlignment="Left" Margin="192,0,0,73" VerticalAlignment="Bottom" FontSize="16" Foreground="#FFD8D8D8"/>
+        <Label Name="DeadlineDateTime_Label" Content="Deadline: " HorizontalAlignment="Left" Margin="192,0,0,78" VerticalAlignment="Bottom" FontSize="16" Foreground="#FFD8D8D8"/>
         <Button Name="Refresh_Button" Content="Refresh" HorizontalAlignment="Right" Margin="0,0,10,154" VerticalAlignment="Bottom" Width="60" Click="Refresh_Button_Click"/>
+        <CheckBox Name="IsTermless_CheckBox" Content="" HorizontalAlignment="Left" Margin="198,0,0,58" VerticalAlignment="Bottom" Height="15" Width="15" Click="IsTermless_CheckBox_Click"/>
+        <Label Name="Termless_Label" Content="Termless (no deadline)" HorizontalAlignment="Left" Margin="213,0,0,51" VerticalAlignment="Bottom" FontSize="16" Foreground="#FFD8D8D8"/>
     </Grid>
 </Window>

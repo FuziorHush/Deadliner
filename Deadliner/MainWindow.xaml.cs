@@ -16,6 +16,8 @@ using System.ComponentModel;
 
 namespace Deadliner
 {
+    //TODO: Сортировка задач
+
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
@@ -23,6 +25,8 @@ namespace Deadliner
     {
         private SaveLoad _saveLoad;
         private BindingList<Task> _tasks;
+
+        private bool _isTermless;
 
         public MainWindow()
         {
@@ -71,7 +75,8 @@ namespace Deadliner
             {
                 Created = DateTime.Now,
                 Deadline = ConstructDateTime(NewTaskDate_Calendar.SelectedDate.Value, int.Parse(NewTaskHour_TextBox.Text), int.Parse(NewTaskMinute_TextBox.Text)),
-                TaskDescription = NewTaskName_TextBox.Text
+                TaskDescription = NewTaskName_TextBox.Text,
+                IsTermless = _isTermless,
         });
         }
 
@@ -93,7 +98,7 @@ namespace Deadliner
         /// </summary>
         private void NewTaskDate_Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
-            NewTaskDateTimeChanged();
+            NewTask_ParametersChanged();
         }
 
         /// <summary>
@@ -117,7 +122,7 @@ namespace Deadliner
                 NewTaskHour_TextBox.Text = "00";
             }
 
-            NewTaskDateTimeChanged();
+            NewTask_ParametersChanged();
         }
 
         /// <summary>
@@ -141,36 +146,39 @@ namespace Deadliner
                 NewTaskMinute_TextBox.Text = "00";
             }
 
-            NewTaskDateTimeChanged();
+            NewTask_ParametersChanged();
         }
 
         /// <summary>
-        /// Изменена дата/час/минута новой задачи
+        /// Изменены параметры новой задачи
         /// </summary>
-        private void NewTaskDateTimeChanged() {
-
-            DateTime dateTime = ConstructDateTime(NewTaskDate_Calendar.SelectedDate.Value, int.Parse(NewTaskHour_TextBox.Text), int.Parse(NewTaskMinute_TextBox.Text));
-            DeadlineDateTime_Label.Content = $"Deadline: {dateTime.Day}.{dateTime.Month}.{dateTime.Year} {dateTime.Hour}:{dateTime.Minute}";
-            SetAddButton(dateTime);
-        }
-
-        /// <summary>
-        /// нужно ли активировать/деактивировать кнопку добавления
-        /// </summary>
-        private void SetAddButton(DateTime dateTime)
+        private void NewTask_ParametersChanged()
         {
-            if (dateTime <= DateTime.Now)
+            if (_isTermless == true)
             {
-                if (AddTask_Button.IsEnabled != false)
+                DeadlineDateTime_Label.Content = $"Deadline: infinity";
+                if (AddTask_Button.IsEnabled != true)
                 {
-                    AddTask_Button.IsEnabled = false;
+                    AddTask_Button.IsEnabled = true;
                 }
             }
             else
             {
-                if (AddTask_Button.IsEnabled != true)
+                DateTime dateTime = ConstructDateTime(NewTaskDate_Calendar.SelectedDate.Value, int.Parse(NewTaskHour_TextBox.Text), int.Parse(NewTaskMinute_TextBox.Text));
+                DeadlineDateTime_Label.Content = $"Deadline: {dateTime.Day}.{dateTime.Month}.{dateTime.Year} {dateTime.Hour}:{dateTime.Minute}";
+                if (dateTime <= DateTime.Now)
                 {
-                    AddTask_Button.IsEnabled = true;
+                    if (AddTask_Button.IsEnabled != false)
+                    {
+                        AddTask_Button.IsEnabled = false;
+                    }
+                }
+                else
+                {
+                    if (AddTask_Button.IsEnabled != true)
+                    {
+                        AddTask_Button.IsEnabled = true;
+                    }
                 }
             }
         }
@@ -230,6 +238,18 @@ namespace Deadliner
             UpdateTimeLeft();
             dgTasks.Items.Refresh();
             _tasks.ListChanged += DataChanged;
+        }
+
+        private void IsTermless_CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsTermless_CheckBox.IsChecked == true)
+            {
+                _isTermless = true;
+            }
+            else {
+                _isTermless = false;
+            }
+            NewTask_ParametersChanged();
         }
     }
 }
